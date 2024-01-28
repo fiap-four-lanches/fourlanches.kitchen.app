@@ -4,13 +4,15 @@ import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOr
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntent;
 
+import java.util.List;
+
 public interface KitchenUseCase {
 
     ProductionOrder addOrderToProductionQueue(ProductionOrderIntent productionOrderIntent);
 
-    ProductionOrder getProductionOrderById(Long id);
+    ProductionOrder getProductionOrderByOrderId(Long orderId);
 
-    ProductionOrder getProductionOrderByOrderId(Long id);
+    List<ProductionOrder> getAllProductionOrdersNotFinished();
 
-    ProductionOrder updateProductionOrderStatusById(Long id, ProductionOrderStatus status);
+    ProductionOrder updateProductionOrderStatusById(Long orderId, ProductionOrderStatus status);
 }

@@ -5,8 +5,11 @@ import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOr
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.repository.ProductionRepository;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.usecase.KitchenUseCase;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntent;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -14,24 +17,25 @@ public class KitchenUseCaseImpl implements KitchenUseCase {
 
     private final ProductionRepository productionRepository;
 
-
     @Override
-    public ProductionOrder addOrderToProductionQueue(ProductionOrderIntent productionOrderIntent) {
-        return productionRepository.create(productionOrderIntent.toProductionOrder());
+    public ProductionOrder addOrderToProductionQueue(@NotNull ProductionOrderIntent productionOrderIntent) {
+        return productionRepository.setOrCreate(productionOrderIntent.toProductionOrder());
     }
 
     @Override
-    public ProductionOrder getProductionOrderById(Long id) {
-        return null;
+    public ProductionOrder getProductionOrderByOrderId(Long orderId) {
+        return productionRepository.getProductionOrderByOrderId(orderId);
     }
 
     @Override
-    public ProductionOrder getProductionOrderByOrderId(Long id) {
-        return null;
+    public List<ProductionOrder> getAllProductionOrdersNotFinished() {
+        return productionRepository.getAllProductionOrdersNotFinished();
     }
 
     @Override
-    public ProductionOrder updateProductionOrderStatusById(Long id, ProductionOrderStatus status) {
-        return null;
+    public ProductionOrder updateProductionOrderStatusById(Long orderId, ProductionOrderStatus status) {
+        var productionOrder = productionRepository.getProductionOrderByOrderId(orderId);
+        productionOrder.setStatus(status);
+        return productionRepository.setOrCreate(productionOrder);
     }
 }

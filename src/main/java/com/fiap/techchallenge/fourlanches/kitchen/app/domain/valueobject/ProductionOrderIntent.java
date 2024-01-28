@@ -1,5 +1,6 @@
 package com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.entity.ProductionOrderItemJpaEntity;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderItem;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Builder
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductionOrderIntent {
 
     private Long orderId;

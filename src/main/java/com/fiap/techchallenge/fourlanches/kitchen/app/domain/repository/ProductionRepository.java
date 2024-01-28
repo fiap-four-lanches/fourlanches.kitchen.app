@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductionRepository {
 
-    ProductionOrder create(ProductionOrder productionOrder);
+    ProductionOrder setOrCreate(ProductionOrder productionOrder);
 
     ProductionOrder getProductionOrderByOrderId(Long orderId);
 
