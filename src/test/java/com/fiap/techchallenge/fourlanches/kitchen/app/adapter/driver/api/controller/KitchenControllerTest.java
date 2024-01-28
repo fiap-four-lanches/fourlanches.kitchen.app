@@ -36,9 +36,8 @@ public class KitchenControllerTest {
     @MockBean
     private KitchenUseCase kitchenUseCase;
 
-    // Assuming Production order and OrderIntent are some defined POJOs
-    private ProductionOrderIntent sampleOrderIntent = new ProductionOrderIntent();
-    private ProductionOrder sampleOrder = new ProductionOrder();
+    private final ProductionOrderIntent sampleOrderIntent = new ProductionOrderIntent();
+    private final ProductionOrder sampleOrder = new ProductionOrder();
 
     @Test
     public void shouldReturnProductionOrderGivenOrderId() throws Exception {

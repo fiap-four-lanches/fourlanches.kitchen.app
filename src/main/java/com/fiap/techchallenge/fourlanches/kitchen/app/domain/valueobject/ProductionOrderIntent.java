@@ -1,9 +1,7 @@
 package com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.entity.ProductionOrderItemJpaEntity;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
-import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderItem;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

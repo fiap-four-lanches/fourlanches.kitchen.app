@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.entity.ProductionOrderItemJpaEntity.fromProductionOrderItem;
-
 @Data
 @Entity
 @Table(name = "orders")

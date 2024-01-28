@@ -15,10 +15,11 @@ public interface ProductionOrderJpaRepository extends JpaRepository<ProductionOr
     @Query("SELECT o FROM ProductionOrderJpaEntity o WHERE o.orderId = :orderId")
     Optional<ProductionOrderJpaEntity> getProductionOrderJpaEntityByOrderId(Long orderId);
 
-    @Query("SELECT o FROM ProductionOrderJpaEntity o \n" +
-            "WHERE o.status <> 'finished' \n" +
-            "ORDER BY case \n" +
-            "WHEN o.status = 'in_preparation' THEN 1\n" +
-            "WHEN o.status = 'queued' THEN 2 END, o.createdAt ASC ")
+    @Query("""
+            SELECT o FROM ProductionOrderJpaEntity o\s
+            WHERE o.status <> 'finished'\s
+            ORDER BY case\s
+            WHEN o.status = 'in_preparation' THEN 1
+            WHEN o.status = 'queued' THEN 2 END, o.createdAt ASC\s""")
     List<ProductionOrderJpaEntity> getAllProductionOrderNotFinished();
 }

@@ -5,10 +5,8 @@ import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOr
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.repository.ProductionRepository;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.usecase.KitchenUseCase;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntent;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
