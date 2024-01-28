@@ -2,11 +2,9 @@ package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.repos
 
 import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.ProductionOrderJpaRepository;
 import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.entity.ProductionOrderJpaEntity;
-import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.expcetion.ProductionOrderNotFound;
+import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.expcetion.ProductionOrderNotFoundException;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.repository.ProductionRepository;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +27,7 @@ public class ProductionRepositoryImpl implements ProductionRepository {
     public ProductionOrder getProductionOrderByOrderId(Long orderId) {
         Optional<ProductionOrderJpaEntity> optionalProductionOrder = jpaRepository.getProductionOrderJpaEntityByOrderId(orderId);
         return optionalProductionOrder.map(ProductionOrderJpaEntity::toProductionOrder)
-                .orElseThrow(ProductionOrderNotFound::new);
+                .orElseThrow(ProductionOrderNotFoundException::new);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.controller.advisor;
 
-import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.expcetion.ProductionOrderNotFound;
+import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.expcetion.ProductionOrderNotFoundException;
 import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.exception.InternalServerErrorException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class GeneralControllerAdvisor {
         return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ProductionOrderNotFound.class)
+    @ExceptionHandler(ProductionOrderNotFoundException.class)
     public ResponseEntity<ApiErrorMessage> handleProductionOrderNotFoundException(
             EntityNotFoundException ex, WebRequest request) {
 
