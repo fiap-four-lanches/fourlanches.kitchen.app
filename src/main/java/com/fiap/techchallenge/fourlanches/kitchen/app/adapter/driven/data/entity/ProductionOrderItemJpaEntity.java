@@ -34,7 +34,7 @@ public class ProductionOrderItemJpaEntity {
         return ProductionOrderItem.builder()
                 .id(this.id)
                 .name(this.name)
-                .category(ProductionOrderCategory.valueOf(this.category))
+                .category(ProductionOrderCategory.valueOf(this.category.toUpperCase()))
                 .description(this.description)
                 .quantity(this.quantity)
                 .observation(this.observation)

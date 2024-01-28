@@ -42,14 +42,13 @@ public class ProductionOrderJpaEntity {
                 .orderItems(this.orderItems.stream().map(ProductionOrderItemJpaEntity::toProductionOrderItem).toList())
                 .createdAt(this.createdAt)
                 .updatedAt(this.updateAt)
-                .status(ProductionOrderStatus.valueOf(this.status))
+                .status(ProductionOrderStatus.valueOf(this.status.toUpperCase()))
                 .build();
     }
 
     public static ProductionOrderJpaEntity fromProductionOrder(ProductionOrder productionOrder) {
         var productionOrderJpaEntity = ProductionOrderJpaEntity.builder()
                 .orderId(productionOrder.getOrderId())
-
                 .createdAt(productionOrder.getCreatedAt())
                 .updateAt(productionOrder.getUpdatedAt())
                 .status(productionOrder.getStatus().toString())

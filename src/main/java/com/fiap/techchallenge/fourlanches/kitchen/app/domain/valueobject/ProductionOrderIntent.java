@@ -5,8 +5,10 @@ import com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driven.data.entity
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderItem;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 @Builder
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductionOrderIntent {
 
     private Long orderId;

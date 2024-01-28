@@ -8,6 +8,7 @@ import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.Product
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -18,7 +19,10 @@ public class KitchenUseCaseImpl implements KitchenUseCase {
     private final ProductionRepository productionRepository;
 
     @Override
-    public ProductionOrder addOrderToProductionQueue(@NotNull ProductionOrderIntent productionOrderIntent) {
+    public ProductionOrder addOrderToProductionQueue(ProductionOrderIntent productionOrderIntent) {
+        if (productionOrderIntent == null) {
+            throw new IllegalArgumentException("production order intent is null");
+        }
         return productionRepository.setOrCreate(productionOrderIntent.toProductionOrder());
     }
 
