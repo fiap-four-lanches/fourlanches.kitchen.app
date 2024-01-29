@@ -34,14 +34,22 @@ public class ProductionOrderJpaEntity {
     private String status;
 
     public ProductionOrder toProductionOrder() {
-        return ProductionOrder.builder()
+        var productionOrder = ProductionOrder.builder()
                 .id(this.id)
                 .orderId(this.orderId)
-                .orderItems(this.orderItems.stream().map(ProductionOrderItemJpaEntity::toProductionOrderItem).toList())
                 .createdAt(this.createdAt)
                 .updatedAt(this.updateAt)
-                .status(ProductionOrderStatus.valueOf(this.status.toUpperCase()))
                 .build();
+
+        if (this.status != null) {
+            productionOrder.setStatus(ProductionOrderStatus.valueOf(this.status.toUpperCase()));
+        }
+
+        if (this.orderItems != null) {
+            productionOrder.setOrderItems(this.orderItems.stream().map(ProductionOrderItemJpaEntity::toProductionOrderItem).toList());
+        }
+
+        return productionOrder;
     }
 
     public static ProductionOrderJpaEntity fromProductionOrder(ProductionOrder productionOrder) {
@@ -49,12 +57,17 @@ public class ProductionOrderJpaEntity {
                 .orderId(productionOrder.getOrderId())
                 .createdAt(productionOrder.getCreatedAt())
                 .updateAt(productionOrder.getUpdatedAt())
-                .status(productionOrder.getStatus().toString())
                 .build();
 
-        productionOrderJpaEntity
-                .setOrderItems(productionOrder.getOrderItems().stream().map(ProductionOrderItemJpaEntity::fromProductionOrderItem)
-                        .toList());
+        if (productionOrder.getStatus() != null) {
+            productionOrderJpaEntity.setStatus(productionOrder.getStatus().toString());
+        }
+
+        if (productionOrder.getOrderItems() != null) {
+            productionOrderJpaEntity
+                    .setOrderItems(productionOrder.getOrderItems().stream().map(ProductionOrderItemJpaEntity::fromProductionOrderItem)
+                            .toList());
+        }
 
         return productionOrderJpaEntity;
     }

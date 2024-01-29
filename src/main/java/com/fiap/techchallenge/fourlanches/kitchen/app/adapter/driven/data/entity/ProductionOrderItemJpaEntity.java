@@ -31,23 +31,33 @@ public class ProductionOrderItemJpaEntity {
     private String observation;
 
     public ProductionOrderItem toProductionOrderItem() {
-        return ProductionOrderItem.builder()
+        var productionOrderItem = ProductionOrderItem.builder()
                 .id(this.id)
                 .name(this.name)
-                .category(ProductionOrderCategory.valueOf(this.category.toUpperCase()))
                 .description(this.description)
                 .quantity(this.quantity)
                 .observation(this.observation)
                 .build();
+
+        if (this.category != null) {
+            productionOrderItem.setCategory(ProductionOrderCategory.valueOf(this.category.toUpperCase()));
+        }
+
+        return productionOrderItem;
     }
 
     public static ProductionOrderItemJpaEntity fromProductionOrderItem(ProductionOrderItem productionOrderItem) {
-        return ProductionOrderItemJpaEntity.builder()
+        var productionOrderItemJpaEntity = ProductionOrderItemJpaEntity.builder()
                 .name(productionOrderItem.getName())
-                .category(productionOrderItem.getCategory().toString())
                 .description(productionOrderItem.getDescription())
                 .quantity(productionOrderItem.getQuantity())
                 .observation(productionOrderItem.getObservation())
                 .build();
+
+        if (productionOrderItem.getCategory() != null) {
+            productionOrderItemJpaEntity.setCategory(productionOrderItem.getCategory().toString());
+        }
+
+        return productionOrderItemJpaEntity;
     }
 }
