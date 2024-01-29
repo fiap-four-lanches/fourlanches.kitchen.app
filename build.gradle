@@ -68,10 +68,9 @@ jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "com/fiap/**/application/dto/**.*",
-                    "com/fiap/**/SpringJpaConfig*",
-                    "com/fiap/**/*Exception*",
-                    "com/fiap/**/InternalServerError*",
-                    "com/fiap/**/Application*"
+                    "com/fiap/**/SpringJpaConfig**",
+                    "com/fiap/**/Application**",
+                    "com/fiap/**/entity/**.*",
             ])
         }))
     }
