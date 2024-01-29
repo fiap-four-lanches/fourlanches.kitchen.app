@@ -6,6 +6,5 @@ CREATE TABLE order_items
     category    VARCHAR(255)       NOT NULL,
     description VARCHAR(255),
     quantity    integer            NOT NULL,
-    quantity    integer            NOT NULL,
     observation VARCHAR(255)
 );
