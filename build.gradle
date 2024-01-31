@@ -77,7 +77,7 @@ jacocoTestReport {
 					"com/fiap/**/SpringJpaConfig*",
 					"com/fiap/**/*Exception*",
 					"com/fiap/**/InternalServerError*",
-					"com/fiap/**/FourLanchesApplication*"
+					"com/fiap/techchallenge/fourlanches/kitchen/app/FourLanchesApplication.java",
 			])
 		}))
 	}
