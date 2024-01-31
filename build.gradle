@@ -74,12 +74,15 @@ jacocoTestReport {
         xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                    "com/fiap/**/SpringJpaConfig**",
-                    "com/fiap/techchallenge/fourlanches/kitchen/app/Application.java"
-            ])
-        }))
-    }
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					"com/fiap/**/application/dto/**.*",
+					"com/fiap/**/SpringJpaConfig*",
+					"com/fiap/**/*Exception*",
+					"com/fiap/**/InternalServerError*",
+					"com/fiap/**/FourLanchesApplication*"
+			])
+		}))
+	}
 }
