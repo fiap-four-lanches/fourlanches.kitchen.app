@@ -24,7 +24,7 @@ services:
       - mysqldb
     environment:
       - MYSQL_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/fourlanches
-      - MYSQL_DATABASE_USER=${DATABASE_USERNAME}
-      - MYSQL_DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
     ports:
       - '8080:8080'
