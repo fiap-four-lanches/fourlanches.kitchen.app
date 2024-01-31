@@ -8,13 +8,13 @@ WORKDIR $APP_HOME
 COPY build.gradle settings.gradle $APP_HOME
 
 COPY gradle $APP_HOME/gradle
-COPY --chown=gradle:gradle src /home/gradle/src
+COPY --chown=gradle:gradle . /home/gradle/src
 USER root
 RUN chown -R gradle /home/gradle/src
 
 RUN gradle build || return 0
-COPY src .
-RUN gradle clean build --info --stacktrace
+COPY . .
+RUN gradle clean build
 
 # App container
 FROM eclipse-temurin:17-jdk-jammy
