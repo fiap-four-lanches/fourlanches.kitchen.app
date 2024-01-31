@@ -49,7 +49,7 @@ dependencies {
 }
 
 flyway {
-    url = System.getenv('MYSQL_CONNECTION_URL')
+    url = System.getenv('MYSQL_DATASOURCE_URL')
     user = System.getenv('DATABASE_USERNAME')
     password = System.getenv('DATABASE_PASSWORD')
     cleanDisabled = false
