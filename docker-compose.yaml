@@ -23,7 +23,7 @@ services:
     depends_on:
       - mysqldb
     environment:
-      - MYSQL_CONNECTION_URL=jdbc:mysql://mysqldb:3306/fourlanches
+      - MYSQL_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/fourlanches
       - MYSQL_DATABASE_USER=${DATABASE_USERNAME}
       - MYSQL_DATABASE_PASSWORD=${DATABASE_PASSWORD}
     ports:
