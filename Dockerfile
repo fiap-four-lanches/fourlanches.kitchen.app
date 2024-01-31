@@ -14,11 +14,11 @@ RUN chown -R gradle /home/gradle/src
 
 RUN gradle build || return 0
 COPY src .
-RUN gradle clean build
+RUN gradle clean build --info --stacktrace
 
 # App container
 FROM eclipse-temurin:17-jdk-jammy
-ENV ARTIFACT_NAME=fourlanches-payment-app-0.0.1-SNAPSHOT.jar
+ENV ARTIFACT_NAME=fourlanches-kitchen-app-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/usr/app
 
 WORKDIR $APP_HOME/
