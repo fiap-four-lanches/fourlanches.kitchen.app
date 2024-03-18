@@ -28,6 +28,7 @@ public class OrderQueuedConsumer {
                                                     @Header(X_REQUEST_ID) String requestId) throws JacksonException {
         log.info("received production intent message [message:{}][request_id:{}]", message, requestId);
         var productionOrderIntent = new ObjectMapper().readValue(message, ProductionOrderIntent.class);
+        productionOrderIntent.setOriginalRequestId(requestId);
         kitchenUseCase.addOrderToProductionQueue(productionOrderIntent);
         log.info("processed production intent message [message:{}][request_id:{}]", message, requestId);
     }
