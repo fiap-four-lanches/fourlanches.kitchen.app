@@ -14,6 +14,17 @@ services:
       - MYSQL_USER=${DATABASE_USERNAME}
     ports:
       - '3306:3306'
+  rabbitmq:
+    env_file:
+      - .env
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
   app:
     env_file:
       - .env
@@ -22,9 +33,20 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysqldb
+      - rabbitmq
     environment:
       - MYSQL_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/fourlanches
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - QUEUE_EXCHANGE=${QUEUE_EXCHANGE}
+      - QUEUE_ORDER_STATUS_NAME=${QUEUE_ORDER_STATUS_NAME}
+      - QUEUE_IN_PREPARATION_NAME=${QUEUE_IN_PREPARATION_NAME}
+      - QUEUE_FINISHED_NAME=${QUEUE_FINISHED_NAME}
+      - QUEUE_ORDER_CANCEL_NAME=${QUEUE_ORDER_CANCEL_NAME}
     ports:
       - '8080:8080'

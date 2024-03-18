@@ -19,5 +19,7 @@ public class ProductionOrder {
     private ProductionOrderStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String detail;
+    private String originalRequestId;
 
 }

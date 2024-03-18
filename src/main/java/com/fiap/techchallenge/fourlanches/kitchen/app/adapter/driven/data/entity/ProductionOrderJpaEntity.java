@@ -32,6 +32,9 @@ public class ProductionOrderJpaEntity {
     @Column(name = "updated_at")
     private LocalDateTime updateAt;
     private String status;
+    private String detail;
+    @Column(name = "original_request_id")
+    private String originalRequestId;
 
     public ProductionOrder toProductionOrder() {
         var productionOrder = ProductionOrder.builder()
@@ -39,6 +42,8 @@ public class ProductionOrderJpaEntity {
                 .orderId(this.orderId)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updateAt)
+                .detail(detail)
+                .originalRequestId(originalRequestId)
                 .build();
 
         if (this.status != null) {
@@ -57,6 +62,8 @@ public class ProductionOrderJpaEntity {
                 .orderId(productionOrder.getOrderId())
                 .createdAt(productionOrder.getCreatedAt())
                 .updateAt(productionOrder.getUpdatedAt())
+                .detail(productionOrder.getDetail())
+                .originalRequestId(productionOrder.getOriginalRequestId())
                 .build();
 
         if (productionOrder.getStatus() != null) {

@@ -2,6 +2,7 @@ package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.contro
 
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
+import com.fiap.techchallenge.fourlanches.kitchen.app.domain.repository.ProductionStatusNotifier;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.usecase.KitchenUseCase;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntent;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +23,7 @@ import java.util.List;
 public class KitchenController {
 
     private KitchenUseCase kitchenUseCase;
+    private ProductionStatusNotifier productionStatusNotifier;
 
     @GetMapping(value = "/{orderId}", produces = "application/json")
     @ApiResponse(responseCode = "200")
@@ -48,6 +50,7 @@ public class KitchenController {
     @ApiResponse(responseCode = "200")
     public ResponseEntity<ProductionOrder> updateStatusToInProduction(@PathVariable Long orderId) {
         var inPreparationOrder = kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.IN_PREPARATION);
+        productionStatusNotifier.notifyOrderInPreparation(orderId);
         return ResponseEntity.ok(inPreparationOrder);
     }
 
@@ -55,6 +58,7 @@ public class KitchenController {
     @ApiResponse(responseCode = "200")
     public ResponseEntity<ProductionOrder> updateStatusToFinished(@PathVariable Long orderId) {
         var finishedOrder = kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.FINISHED);
+        productionStatusNotifier.notifyOrderFinished(orderId);
         return ResponseEntity.ok(finishedOrder);
     }
 }
