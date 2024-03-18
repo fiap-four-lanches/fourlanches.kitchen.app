@@ -43,7 +43,7 @@ public class OrderQueuedConsumerTest {
         consumer.receiveProductionOrderIntentMessage(json, requestId);
 
         // Assert
-        productionOrderIntent.setRequestId(requestId);
+        productionOrderIntent.setOriginalRequestId(requestId);
         verify(kitchenUseCase).addOrderToProductionQueue(productionOrderIntent);
     }
 
