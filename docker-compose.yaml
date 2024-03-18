@@ -12,6 +12,12 @@ services:
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
       - MYSQL_DATABASE=fourlanches
       - MYSQL_USER=${DATABASE_USERNAME}
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+#      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 30
     ports:
       - '3306:3306'
   rabbitmq:
@@ -32,8 +38,10 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - mysqldb
-      - rabbitmq
+      mysqldb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
     environment:
       - MYSQL_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/fourlanches
       - DATABASE_USERNAME=${DATABASE_USERNAME}
