@@ -137,4 +137,32 @@ public class KitchenControllerTest {
         verify(kitchenUseCase, times(1)).updateProductionOrderStatusById(orderId, ProductionOrderStatus.FINISHED);
     }
 
+    @Test
+    public void shouldNotifyOrderInPreparationToInProductionGivenOrderId() throws Exception {
+        // Given
+        long orderId = 1L;
+        given(kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.IN_PREPARATION)).willReturn(sampleOrder);
+
+        // When & Then
+        this.mockMvc.perform(post("/kitchen/orders/" + orderId + "/in-production"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(sampleOrder)));
+
+        verify(productionStatusNotifier, times(1)).notifyOrderInPreparation(orderId);
+    }
+
+    @Test
+    public void shouldNotifyOrderToFinishedGivenOrderId() throws Exception {
+        // Given
+        long orderId = 1L;
+        given(kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.FINISHED)).willReturn(sampleOrder);
+
+        // When & Then
+        this.mockMvc.perform(post("/kitchen/orders/" + orderId + "/finished"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(sampleOrder)));
+
+        verify(productionStatusNotifier, times(1)).notifyOrderFinished(orderId);
+    }
+
 }

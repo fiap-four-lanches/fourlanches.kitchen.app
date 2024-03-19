@@ -1,4 +1,4 @@
-package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.queue;
+package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.queue;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;

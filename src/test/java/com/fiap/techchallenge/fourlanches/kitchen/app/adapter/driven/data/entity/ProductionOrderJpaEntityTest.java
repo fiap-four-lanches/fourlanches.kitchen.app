@@ -18,10 +18,12 @@ class ProductionOrderJpaEntityTest {
         // Given
         var jpaEntity = new ProductionOrderJpaEntity();
         jpaEntity.setId(1L);
-        jpaEntity.setCreatedAt(LocalDateTime.now());
         jpaEntity.setOrderId(123L);
-        jpaEntity.setStatus("queued");
+        jpaEntity.setCreatedAt(LocalDateTime.now());
         jpaEntity.setUpdateAt(LocalDateTime.now());
+        jpaEntity.setStatus("queued");
+        jpaEntity.setDetail("detail");
+        jpaEntity.setOriginalRequestId("req-id");
         jpaEntity.setOrderItems(Collections.emptyList());
 
         // When
@@ -30,9 +32,12 @@ class ProductionOrderJpaEntityTest {
         // Then
         assertNotNull(productionOrder);
         assertEquals(jpaEntity.getId(), productionOrder.getId());
-        assertEquals(jpaEntity.getCreatedAt(), productionOrder.getCreatedAt());
         assertEquals(jpaEntity.getOrderId(), productionOrder.getOrderId());
+        assertEquals(jpaEntity.getCreatedAt(), productionOrder.getCreatedAt());
+        assertEquals(jpaEntity.getUpdateAt(), productionOrder.getUpdatedAt());
         assertEquals(ProductionOrderStatus.valueOf(jpaEntity.getStatus().toUpperCase()), productionOrder.getStatus());
+        assertEquals(jpaEntity.getDetail(), productionOrder.getDetail());
+        assertEquals(jpaEntity.getOriginalRequestId(), productionOrder.getOriginalRequestId());
         assertEquals(jpaEntity.getOrderItems().size(), productionOrder.getOrderItems().size());
     }
 
@@ -54,10 +59,12 @@ class ProductionOrderJpaEntityTest {
     public void shouldConvertFullDomainEntityToJpaEntity() {
         // Given
         var productionOrder = ProductionOrder.builder()
-                .createdAt(LocalDateTime.now())
                 .orderId(123L)
-                .status(ProductionOrderStatus.QUEUED)
+                .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
+                .status(ProductionOrderStatus.QUEUED)
+                .detail("detail")
+                .originalRequestId("req-id")
                 .orderItems(List.of())
                 .build();
 
@@ -67,9 +74,12 @@ class ProductionOrderJpaEntityTest {
         // Then
         assertNotNull(jpaEntity);
         assertEquals(productionOrder.getId(), jpaEntity.getId());
-        assertEquals(productionOrder.getCreatedAt(), jpaEntity.getCreatedAt());
         assertEquals(productionOrder.getOrderId(), jpaEntity.getOrderId());
+        assertEquals(productionOrder.getCreatedAt(), jpaEntity.getCreatedAt());
+        assertEquals(productionOrder.getUpdatedAt(), jpaEntity.getUpdateAt());
         assertEquals(productionOrder.getStatus().toString(), jpaEntity.getStatus());
+        assertEquals(productionOrder.getDetail(), jpaEntity.getDetail());
+        assertEquals(productionOrder.getOriginalRequestId(), jpaEntity.getOriginalRequestId());
         assertEquals(productionOrder.getOrderItems().size(), jpaEntity.getOrderItems().size());
     }
 

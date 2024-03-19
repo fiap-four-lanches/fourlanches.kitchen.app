@@ -1,4 +1,4 @@
-package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.queue;
+package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.queue;
 
 
 import com.fasterxml.jackson.core.JacksonException;
@@ -13,7 +13,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import static com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.queue.HeaderConstant.X_REQUEST_ID;
+import static com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.queue.QueueConfiguration.X_REQUEST_ID;
 
 @Slf4j
 @Component
