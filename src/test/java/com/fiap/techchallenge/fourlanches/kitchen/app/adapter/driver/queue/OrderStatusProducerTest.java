@@ -21,11 +21,7 @@ import static com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.queu
 import static com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus.FINISHED;
 import static com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus.IN_PREPARATION;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

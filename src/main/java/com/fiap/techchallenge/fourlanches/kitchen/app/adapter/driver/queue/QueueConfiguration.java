@@ -1,5 +1,6 @@
 package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.queue;
 
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -10,26 +11,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@AllArgsConstructor
 public class QueueConfiguration {
 
     public final static String X_REQUEST_ID = "X-Request-Id";
+    @Value("${queue.order.status.name}")
     private final String orderStatusQueue;
+    @Value("${queue.in-preparation.name}")
     private final String inPreparationQueue;
+    @Value("${queue.finished.name}")
     private final String finishedQueue;
+    @Value("${queue.order.cancel.name}")
     private final String orderCancelQueue;
+    @Value("${queue.exchange.name}")
     private final String exchangeChannel;
-
-    public QueueConfiguration(@Value("${queue.order.status.name}") String orderStatusQueue,
-                              @Value("${queue.in-preparation.name}") String inPreparationQueue,
-                              @Value("${queue.finished.name}") String finishedQueue,
-                              @Value("${queue.order.cancel.name}") String orderCancelQueue,
-                              @Value("${queue.exchange.name}") String exchangeChannel) {
-        this.orderStatusQueue = orderStatusQueue;
-        this.inPreparationQueue = inPreparationQueue;
-        this.finishedQueue = finishedQueue;
-        this.orderCancelQueue = orderCancelQueue;
-        this.exchangeChannel = exchangeChannel;
-    }
 
     @Bean
     public Queue orderStatusQueue() {
