@@ -15,16 +15,41 @@ import org.springframework.context.annotation.Configuration;
 public class QueueConfiguration {
 
     public final static String X_REQUEST_ID = "X-Request-Id";
+
+    private static String orderStatusQueue;
+
+    private static String inPreparationQueue;
+
+    private static String finishedQueue;
+
+    private static String orderCancelQueue;
+
+    private static String exchangeChannel;
+
     @Value("${queue.order.status.name}")
-    private final String orderStatusQueue;
+    public void setOrderStatusQueue(String value) {
+        orderStatusQueue = value;
+    }
+
     @Value("${queue.in-preparation.name}")
-    private final String inPreparationQueue;
+    public void setInPreparationQueue(String value) {
+        inPreparationQueue = value;
+    }
+
     @Value("${queue.finished.name}")
-    private final String finishedQueue;
+    public void setFinishedQueue(String value) {
+        finishedQueue = value;
+    }
+
     @Value("${queue.order.cancel.name}")
-    private final String orderCancelQueue;
+    public void setOrderCancelQueue(String value) {
+        orderCancelQueue = value;
+    }
+
     @Value("${queue.exchange.name}")
-    private final String exchangeChannel;
+    public void setExchangeChannel(String value) {
+        exchangeChannel = value;
+    }
 
     @Bean
     public Queue orderStatusQueue() {
