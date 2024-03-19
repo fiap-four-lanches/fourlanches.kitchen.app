@@ -8,9 +8,12 @@ import com.fiap.techchallenge.fourlanches.kitchen.app.domain.repository.Producti
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntent;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntentItem;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -24,7 +27,8 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
-@SpringBootTest
+@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class KitchenUseCaseImplTest {
 
     @Mock

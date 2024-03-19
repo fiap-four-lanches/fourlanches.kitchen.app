@@ -1,7 +1,9 @@
 package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
+import com.fiap.techchallenge.fourlanches.kitchen.app.domain.repository.ProductionStatusNotifier;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.usecase.KitchenUseCase;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntent;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +24,7 @@ import java.util.List;
 public class KitchenController {
 
     private KitchenUseCase kitchenUseCase;
+    private ProductionStatusNotifier productionStatusNotifier;
 
     @GetMapping(value = "/{orderId}", produces = "application/json")
     @ApiResponse(responseCode = "200")
@@ -46,15 +49,17 @@ public class KitchenController {
 
     @PostMapping(value = "/{orderId}/in-production", produces = "application/json")
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<ProductionOrder> updateStatusToInProduction(@PathVariable Long orderId) {
+    public ResponseEntity<ProductionOrder> updateStatusToInProduction(@PathVariable Long orderId) throws JsonProcessingException {
         var inPreparationOrder = kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.IN_PREPARATION);
+        productionStatusNotifier.notifyOrderInPreparation(orderId);
         return ResponseEntity.ok(inPreparationOrder);
     }
 
     @PostMapping(value = "/{orderId}/finished", produces = "application/json")
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<ProductionOrder> updateStatusToFinished(@PathVariable Long orderId) {
+    public ResponseEntity<ProductionOrder> updateStatusToFinished(@PathVariable Long orderId) throws JsonProcessingException {
         var finishedOrder = kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.FINISHED);
+        productionStatusNotifier.notifyOrderFinished(orderId);
         return ResponseEntity.ok(finishedOrder);
     }
 }

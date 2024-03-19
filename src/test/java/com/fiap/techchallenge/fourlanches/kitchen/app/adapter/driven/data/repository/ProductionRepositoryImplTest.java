@@ -8,14 +8,16 @@ import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOr
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderItem;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,7 +27,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class ProductionRepositoryImplTest {
 
     @Mock

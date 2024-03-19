@@ -3,16 +3,26 @@ package com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.api.contro
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
+import com.fiap.techchallenge.fourlanches.kitchen.app.domain.repository.ProductionStatusNotifier;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.usecase.KitchenUseCase;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.ProductionOrderIntent;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,19 +36,35 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureJsonTesters
+@ContextConfiguration(classes = TestConfiguration.class)
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(KitchenController.class)
 public class KitchenControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private KitchenUseCase kitchenUseCase;
+
+    @Mock
+    private ProductionStatusNotifier productionStatusNotifier;
+
+
+    @InjectMocks
+    private KitchenController controller;
 
     private final ProductionOrderIntent sampleOrderIntent = new ProductionOrderIntent();
     private final ProductionOrder sampleOrder = new ProductionOrder();
 
+    @BeforeEach
+    void setup() {
+        this.mockMvc = MockMvcBuilders
+                .standaloneSetup(controller)
+                .build();
+    }
     @Test
     public void shouldReturnProductionOrderGivenOrderId() throws Exception {
         // Given
@@ -109,6 +135,34 @@ public class KitchenControllerTest {
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(sampleOrder)));
 
         verify(kitchenUseCase, times(1)).updateProductionOrderStatusById(orderId, ProductionOrderStatus.FINISHED);
+    }
+
+    @Test
+    public void shouldNotifyOrderInPreparationToInProductionGivenOrderId() throws Exception {
+        // Given
+        long orderId = 1L;
+        given(kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.IN_PREPARATION)).willReturn(sampleOrder);
+
+        // When & Then
+        this.mockMvc.perform(post("/kitchen/orders/" + orderId + "/in-production"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(sampleOrder)));
+
+        verify(productionStatusNotifier, times(1)).notifyOrderInPreparation(orderId);
+    }
+
+    @Test
+    public void shouldNotifyOrderToFinishedGivenOrderId() throws Exception {
+        // Given
+        long orderId = 1L;
+        given(kitchenUseCase.updateProductionOrderStatusById(orderId, ProductionOrderStatus.FINISHED)).willReturn(sampleOrder);
+
+        // When & Then
+        this.mockMvc.perform(post("/kitchen/orders/" + orderId + "/finished"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(sampleOrder)));
+
+        verify(productionStatusNotifier, times(1)).notifyOrderFinished(orderId);
     }
 
 }

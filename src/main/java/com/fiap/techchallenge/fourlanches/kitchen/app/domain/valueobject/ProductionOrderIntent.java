@@ -1,5 +1,6 @@
 package com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
@@ -22,6 +23,9 @@ public class ProductionOrderIntent {
     private List<ProductionOrderIntentItem> orderItems;
     private ProductionOrderStatus status;
 
+    @JsonIgnore
+    private String originalRequestId;
+
     public ProductionOrder toProductionOrder() {
         var now = LocalDateTime.now();
         return ProductionOrder.builder()
@@ -30,6 +34,7 @@ public class ProductionOrderIntent {
                 .createdAt(now)
                 .updatedAt(now)
                 .status(ProductionOrderStatus.QUEUED)
+                .originalRequestId(this.originalRequestId)
                 .build();
     }
 }

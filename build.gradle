@@ -21,7 +21,7 @@ sonar {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/*.xml"
         property "sonar.java.coveragePlugin", "jacoco"
-        property "sonar.exclusions", "**/application/dto/**.*,**/SpringJpaConfig*,**/*Exception*,**/InternalServerError*,**/FourLanchesApplication.java"
+        property "sonar.exclusions", "**/application/dto/**.*,**/SpringJpaConfig*,**/*Exception*,**/InternalServerError*,**/FourLanchesApplication.java,**/QueueConfiguration.java"
     }
 }
 
@@ -38,6 +38,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
@@ -75,7 +76,9 @@ jacocoTestReport {
 		classDirectories.setFrom(files(classDirectories.files.collect {
 			fileTree(dir: it, exclude: [
 					"com/fiap/**/application/dto/**.*",
-					"com/fiap/**/SpringJpaConfig*",
+                    "com/fiap/**/application/entity/**.*",
+                    "com/fiap/**/application/valueobject/**.*",
+                    "com/fiap/**/SpringJpaConfig*",
 					"com/fiap/**/*Exception*",
 					"com/fiap/**/InternalServerError*",
 					"com/fiap/techchallenge/fourlanches/kitchen/app/FourLanchesApplication.java",
