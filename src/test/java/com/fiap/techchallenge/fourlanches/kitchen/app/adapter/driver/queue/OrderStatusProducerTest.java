@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrder;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus;
 import com.fiap.techchallenge.fourlanches.kitchen.app.domain.usecase.KitchenUseCase;
+import com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.OrderStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import static com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.queue.QueueConfiguration.X_REQUEST_ID;
 import static com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus.FINISHED;
 import static com.fiap.techchallenge.fourlanches.kitchen.app.domain.entity.ProductionOrderStatus.IN_PREPARATION;
+import static com.fiap.techchallenge.fourlanches.kitchen.app.domain.valueobject.OrderStatus.READY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -59,7 +61,7 @@ public class OrderStatusProducerTest {
 
         // Assert
         verify(queueSender).convertAndSend(eq(QUEUE_ORDER_STATUS_NAME), messageCaptor.capture());
-        assertMessageContainsFieldsAndHeader(IN_PREPARATION);
+        assertMessageContainsFieldsAndHeader(IN_PREPARATION.toString());
     }
 
     @Test
@@ -69,15 +71,15 @@ public class OrderStatusProducerTest {
 
         // Assert
         verify(queueSender).convertAndSend(eq(QUEUE_ORDER_STATUS_NAME), messageCaptor.capture());
-        assertMessageContainsFieldsAndHeader(FINISHED);
+        assertMessageContainsFieldsAndHeader(READY.toString());
     }
 
-    private void assertMessageContainsFieldsAndHeader(ProductionOrderStatus finished) {
+    private void assertMessageContainsFieldsAndHeader(String status) {
         Message message = messageCaptor.getValue();
         String messageBody = new String(message.getBody());
         assertThat(messageBody).contains("kitchen");
         assertThat(messageBody).contains(String.valueOf(DEFAULT_ORDER_ID));
-        assertThat(messageBody).contains(finished.toString());
+        assertThat(messageBody).contains(status);
         assertThat(message.getMessageProperties().getHeader(X_REQUEST_ID).toString()).contains(ORIGINAL_REQUEST_ID);
     }
 }
