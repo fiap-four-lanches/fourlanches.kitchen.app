@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductionOrderIntentItem {
+    private Long productId;
     private String name;
     private String category;
     private String description;
@@ -21,13 +22,17 @@ public class ProductionOrderIntentItem {
     private String observation;
 
     public ProductionOrderItem toProductionOrderItem() {
-        return ProductionOrderItem.builder()
+        var productionOrderItem = ProductionOrderItem.builder()
+                .id(this.productId)
                 .name(this.name)
-                .category(ProductionOrderCategory.valueOf(this.category.toUpperCase()))
                 .description(this.description)
                 .quantity(this.quantity)
                 .observation(this.observation)
                 .build();
+        if (this.category != null) {
+            productionOrderItem.setCategory(ProductionOrderCategory.valueOf(this.category.toUpperCase()));
+        }
+        return productionOrderItem;
     }
 }
 

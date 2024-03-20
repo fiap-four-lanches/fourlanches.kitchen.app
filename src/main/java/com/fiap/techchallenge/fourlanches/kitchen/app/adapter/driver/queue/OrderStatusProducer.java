@@ -20,14 +20,17 @@ import static com.fiap.techchallenge.fourlanches.kitchen.app.adapter.driver.queu
 @Component
 public class OrderStatusProducer implements ProductionStatusNotifier {
 
-    private final String queueOrderStatusName;
+    private final String queueInPreparationName;
+    private final String queueFinishedName;
     private final AmqpTemplate queueSender;
     private final KitchenUseCase kitchenUseCase;
 
-    public OrderStatusProducer(@Value("${queue.order.status.name}") String queueOrderStatusName,
+    public OrderStatusProducer(@Value("${queue.in-preparation.name}") String queueInPreparationName,
+                               @Value("${queue.finished.name}") String queueFinishedName,
                                AmqpTemplate queueSender,
                                KitchenUseCase kitchenUseCase) {
-        this.queueOrderStatusName = queueOrderStatusName;
+        this.queueInPreparationName = queueInPreparationName;
+        this.queueFinishedName = queueFinishedName;
         this.queueSender = queueSender;
         this.kitchenUseCase = kitchenUseCase;
     }
@@ -39,7 +42,7 @@ public class OrderStatusProducer implements ProductionStatusNotifier {
 
     @Override
     public void notifyOrderFinished(Long orderId) throws JsonProcessingException {
-        generateOrderStatusChange(orderId, OrderStatus.FINISHED);
+        generateOrderStatusChange(orderId, OrderStatus.READY);
     }
 
     public void generateOrderStatusChange(Long orderId, OrderStatus status) throws JsonProcessingException {
@@ -52,6 +55,13 @@ public class OrderStatusProducer implements ProductionStatusNotifier {
         String jsonMessage = new ObjectMapper().writeValueAsString(orderStatusMessage);
         var message = new Message(jsonMessage.getBytes(), messageProperties);
 
-        queueSender.convertAndSend(queueOrderStatusName, message);
+        var queueName = "";
+
+        switch (status) {
+            case IN_PREPARATION -> queueName = queueInPreparationName;
+            case READY -> queueName = queueFinishedName;
+        }
+
+        queueSender.convertAndSend(queueName, message);
     }
 }
