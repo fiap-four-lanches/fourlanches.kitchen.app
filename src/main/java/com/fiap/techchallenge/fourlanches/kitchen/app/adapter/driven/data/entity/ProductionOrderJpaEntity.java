@@ -76,6 +76,10 @@ public class ProductionOrderJpaEntity {
                             .toList());
         }
 
+        if (productionOrder.getId() != null) {
+            productionOrderJpaEntity.setId(productionOrder.getId());
+        }
+
         return productionOrderJpaEntity;
     }
 }

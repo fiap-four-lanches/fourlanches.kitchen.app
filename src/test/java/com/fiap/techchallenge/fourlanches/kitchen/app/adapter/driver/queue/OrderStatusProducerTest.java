@@ -44,7 +44,7 @@ public class OrderStatusProducerTest {
 
     @BeforeEach
     public void setUp() {
-        orderStatusProducer = new OrderStatusProducer(QUEUE_ORDER_STATUS_NAME, queueSender, kitchenUseCase);
+        orderStatusProducer = new OrderStatusProducer(QUEUE_ORDER_STATUS_NAME, QUEUE_ORDER_STATUS_NAME, queueSender, kitchenUseCase);
         when(kitchenUseCase.getProductionOrderByOrderId(eq(DEFAULT_ORDER_ID))).thenReturn(ProductionOrder.builder()
                         .orderItems(Collections.emptyList())
                         .originalRequestId(ORIGINAL_REQUEST_ID)
